@@ -1,5 +1,6 @@
+# 1주차 과제 : CLI 프로그램 만들기
+## 프로그램 설명
 
-# CLI
 ## How to use
 ```
 python greet.py alex

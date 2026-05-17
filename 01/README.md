@@ -26,7 +26,95 @@ python3 todo.py addeveryday --ordernum <해야 할 순서>
 ```
 
 ## 실행 예시
+```
+# 먼저 show를 하기 위해서는 adddday나 addeveryday 가 진행되어야 한다.
+# 아무것도 추가 안 한 상태일시 show 예시
+% python3 todo.py show --todo dday
+You need to add <D-day Todo List> first
+% python3 todo.py show --todo everyday
+You need to add <Everyday Todo List> first
 
+# D-day 날짜가 존재하는 일정 추가
+% python3 todo.py adddday --dday 26-05-17
+New D-day List
+Enter your content: Weekly Challenge Week 1
+# 추가 후 확인
+% python3 todo.py show --todo dday       
+----------- D-day Todo List ------------------------------------------------------------------
+|26-05-17    | Weekly Challenge Week 1                                                         |
+----------------------------------------------------------------------------------------------
+
+# 이미 존재하는 D-day 날짜 입력시 날짜 뒤에 숫자를 붙여줌
+% python3 todo.py adddday --dday 26-05-17
+Current D-day Todo List
+----------- D-day Todo List ------------------------------------------------------------------
+|26-05-17    | Weekly Challenge Week 1                                                         |
+----------------------------------------------------------------------------------------------
+Same d-day date!!
+'26-05-17' changed to '26-05-17(2)'
+Enter your content: Weekly Challenge Week 1 Same Date
+% python3 todo.py show --todo dday       
+----------- D-day Todo List ------------------------------------------------------------------
+|26-05-17    | Weekly Challenge Week 1                                                         |
+|26-05-17(2) | Weekly Challenge Week 1 Same Date                                               |
+----------------------------------------------------------------------------------------------
+
+
+# 매일 해야 할 일정 추가
+% python3 todo.py addeveryday --ordernum 1
+Enter your content: First thing I should do
+% python3 todo.py show --todo everyday    
+----------- Everyday Todo List ---------------------------------------------------------------
+| 1  | First thing I should do                                                                 |
+----------------------------------------------------------------------------------------------
+
+# 매일 해야 할 일정에서 순서를 바꾸고 싶으면 넣고 싶은 위치를 적어주면 됨.
+% python3 todo.py addeveryday --ordernum 1
+Current Everyday Todo List
+ ----------- Everyday Todo List --------------------------------------------------------------
+| 1  | First thing I should do                                                                 |
+ ---------------------------------------------------------------------------------------------
+Order will be changed
+Enter your content: Real First thing
+% python3 todo.py show --todo everyday    
+ ----------- Everyday Todo List --------------------------------------------------------------
+| 1  | Real First thing                                                                        |
+| 2  | First thing I should do                                                                 |
+ ---------------------------------------------------------------------------------------------
+
+# D-day 일정 삭제
+% python3 todo.py deldday --dday 26-05-17
+26-05-17 Deleted
+% python3 todo.py show --todo dday       
+ ----------- D-day Todo List -----------------------------------------------------------------
+|26-05-17(2) | Weekly Challenge Week 1 Same Date                                               |
+ ---------------------------------------------------------------------------------------------
+
+# 매일 일정 삭제
+% python3 todo.py deleveryday --ordernum 1
+1 Deleted
+% python3 todo.py show --todo everyday    
+ ----------- Everyday Todo List --------------------------------------------------------------
+| 1  | First thing I should do                                                                 |
+ ---------------------------------------------------------------------------------------------
+
+# 일정 전체 조회
+% python3 todo.py show --todo all         
+ ----------- D-day Todo List -----------------------------------------------------------------
+|26-05-17(2) | Weekly Challenge Week 1 Same Date                                               |
+ ---------------------------------------------------------------------------------------------
+ ----------- Everyday Todo List --------------------------------------------------------------
+| 1  | First thing I should do                                                                 |
+ ---------------------------------------------------------------------------------------------
+```
+## 주의사항
+삭제 실행시 --dday 인자 넘겨줄 시 따옴표 필수
+e.g.) python3 todo.py deldday --dday "26-05-17(2)"
+
+
+## 필요한 추가 기능
+D-day Todo List 에서 일정 삭제시 동일한 날짜의 D-day를 가진 일정이 있을 경우 그 일정의 D-day 형식을 바꿔줘야함.
+e.g.) 26-05-17과 26-05-17(2) 가 존재할 경우, 26-05-17를 삭제 시, 26-05-17(2)를 26-05-17로 바꿔줘야함
 
 ## 회고
 기능 구현을 위해 웹검색은 불가피하였기 때문에 AI는 되도록 사용하지 않으려 했는데 구글링하면 상단에 자동으로 AI 답변이 떠서 난감하다.

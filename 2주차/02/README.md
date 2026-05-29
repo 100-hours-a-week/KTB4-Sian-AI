@@ -34,9 +34,9 @@ board 디렉터리 : 게시글과 관련된 파일들 모음
 
 comment 디렉터리 : 댓글과 관련된 파일들 모음
 
-board_router.py, comment_router.py : 라우터 파일, URL과 API 동작 관리
+board_router.py, comment_router.py : 라우터 파일, URL과 API 동작 관리 (라우터)
 
-board_crud.py, comment_crud.py : 데이터의 CRUD를 처리
+board_crud.py, comment_crud.py : 데이터의 CRUD를 처리 (컨트롤러)
 
 board_schema.py, comment_schema.py : 입출력 관리 파일
 

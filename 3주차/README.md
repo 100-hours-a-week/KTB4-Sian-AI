@@ -1,8 +1,9 @@
 # 3주차 위클리 챌린지 회고
 ## 사용한 데이터
 ### 1. titanic csv (from kaggle)
-[데이터 출처](https://www.kaggle.com/competitions/titanic)
-데이터 컬럼
+[Titanic dataset](https://www.kaggle.com/competitions/titanic)
+
+데이터 컬럼 설명
 |Coloumn name|Definition|Key
 |--------|--------------------------|---------|
 |Survived|Survival| 0=No, 1=Yes
@@ -18,6 +19,13 @@
 |Embarked|Port of Embarkation|C=Cherbourg, Q=Queenstown, S=Southampton|
 
 ### 2. FinanceDataReader 활용
+- FinanceDataReader는 한국 주식 가격, 미국 주식 가격, 지수, 환율, 암호 화폐 가격, 종목 리스트 등을 제공하는 API 패키지.
+- 한국 거래소에 상장된 종목을 가져오기 위해 단축 코드(여섯 자리)를 전달
+- 가격 데이터 : DataReader() 함수
+  - 국내 주식 : 005930(삼성전자) 등
+  - 해외 주식 : AAPL(애플), AMZN(아마존), GOOG(구글) 등
+  - 각종 지수 : KS11(코스피), KQ11(코스닥), ...
+  - 환율 데이터 : USD/KRX(원달러 환율)
 
 ## 회고
 ### 미니퀘스트 회고

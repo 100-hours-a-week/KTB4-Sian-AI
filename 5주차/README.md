@@ -108,9 +108,9 @@ fc            (batch,   10)
 #### Full Fine Tuning으로 선택하여 비교
 - ResNet18과 VGG16을 비교
 - 실험 결과
-- Resnet18 Accuracy: 80.10% 
-- Vgg16 Accuracy: 67.86% 
-- Resnet18 has better accuracy than Vgg16
+	- Resnet18 Accuracy: 80.10% 
+	- Vgg16 Accuracy: 67.86% 
+	- Resnet18 has better accuracy than Vgg16
 
 - 그래프로 비교 
 <img width="1601" height="528" alt="Image" src="https://github.com/user-attachments/assets/3f47e8a7-e071-4930-bce4-829d6c97fe20" />

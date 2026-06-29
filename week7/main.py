@@ -1,21 +1,28 @@
 from langchainfile.rag import build_rag_chain
 from langchainfile.eval import eval_rag
+import argparse
 
 def main():
     print("Hello from rag-project!")
-    q = "RAG란 무엇인가요?"
 
-    rag = build_rag_chain()
-    result =rag.invoke(q)
+    parser = argparse.ArgumentParser(description="LangChain")
+    parser.add_argument('--mode', choices=['chaintest','eval'], help='Choose mode: LangChainTest, LangSmithEval')
+    args = parser.parse_args()
 
-    print("답변:")
-    print(result)
-    print()
+    if args.mode == "chaintest":
+        q = "RAG란 무엇인가요?"
+        print(f"Sample Question: {q}")
+        
+        rag = build_rag_chain()
+        result =rag.invoke(q)
 
-    eval_result = eval_rag(rag)
-    print("평가 답변: ")
-    print(eval_result)
-
+        print(f"Answer: {result}")
+        print()
+    elif args.mode == "eval":
+        rag = build_rag_chain()
+        eval_result = eval_rag(rag)
+        print("LangSmith Evaluation")
+        print(f"{eval_result}")
 
 if __name__ == "__main__":
     main()

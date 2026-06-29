@@ -1,6 +1,6 @@
 import torch
-from datasets import load_dataset
-from transformers import PreTrainedTokenizerFast
+from week5.chatbot.dataset import load_dataset
+from transformers import PreTrainedTokenizerFast, GPT2LMHeadModel
 
 #공통: 토크나이저
 # 한국어를 토큰화해야하므로 사전 학습된 한국어 GPT 토크나이저를 그대로 가져와서 사용

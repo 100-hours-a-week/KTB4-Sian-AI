@@ -18,6 +18,14 @@ EVAL_QUESTIONS = [
         "question": "유사도 검색은 무엇인가요?",
         "answer":   "사용자 질문 벡터와 벡터 DB에 있는 벡터 사이의 각도를 계산하여 유사도를 측정하는 방법입니다.",
     },
+    {
+        "question": "멀티 프로세스는 무엇인가요?",
+        "answer":   "멀티 프로세스는 하나의 프로그램을 여러 프로세스로 나누어 동시에 실행하는 방식으로 멀티 코어일 경우 병렬 처리가 가능합니다.",
+    },
+    {
+        "question": "시간 역전파에 대해 설명해주세요.",
+        "answer":   "시간 역전파는 층(Layer)을 역으로 가는 것이 아니라 시간을 역으로 가면서 역전파를 계산하는 것입니다.",
+    },
 ]
 print(f"검증 질문 수: {len(EVAL_QUESTIONS)}")
 
@@ -143,7 +151,7 @@ def eval_rag(rag):
 
   # 평가하는 모델은 평가 받는 모델과 다른 모델을 선택한다.
   judge_llm = ChatGoogleGenerativeAI(
-          model="gemini-2.5-flash",
+          model="gemini-2.5-flash-lite",
           google_api_key=os.getenv("GOOGLE_API_KEY"),
       )
   

@@ -2,8 +2,8 @@ import time, datetime
 import torch
 import torch.nn as nn
 
-from model import MiniGPT
-from dataset import build_gpt, tokenizer, load_chatbot_data
+from dataset import tokenizer, load_chatbot_data
+from model import build_gpt
 
 
 @torch.no_grad()
@@ -82,15 +82,15 @@ if __name__ == "__main__":
   h = 4
   dropout = 0.1
   device = "cuda" if torch.cuda.is_available() else "cpu"
-
+  print(f"selected device: {device}")
   # Load data by batch size
   get_batch, vocab_size = load_chatbot_data(block_size=block_size, batch_size=batch_size, device=device)
-
+  print(f"vocab size: {vocab_size}")
   # Create model(from scratch)
   model = build_gpt(vocab_size=vocab_size, block_size=block_size,
                       d_model=256, N=4, h=4, dropout=0.1)
   
   # TRAIN
-  train(model, get_batch, device, lr=3e-4, steps=4000, eval_interval=100, decode=decode)
+  #train(model, get_batch, device, lr=3e-4, steps=4000, eval_interval=100, decode=decode)
 
   

@@ -2,6 +2,7 @@ from dataset import load_chatbot_data, tokenizer
 from model import build_gpt, train
 import torch
 
+ckpt_path = "./checkpoint/mini_gpt_260629.pt"
 
 def chat(model, tokenizer, checkpoint_path="mini_gpt.pt",
          device="cpu", max_new_tokens=100, stop_tokens=("<usr>",),
@@ -61,6 +62,7 @@ def main():
      h = 4
      dropout = 0.1
 
+     print("Chat.py started")
      # Load data by batch size
      _, vocab_size = load_chatbot_data(block_size=block_size, batch_size=batch_size, device="cpu")
 
@@ -68,7 +70,7 @@ def main():
      model = build_gpt(vocab_size=vocab_size, block_size=block_size,
                          d_model=d_model, N=N, h=h, dropout=dropout)
 
-     chat(model, tokenizer, checkpoint_path="mini_gpt.pt", device="cpu")
+     chat(model, tokenizer, checkpoint_path=ckpt_path, device="cpu")
 
 
 if __name__ == "__main__":

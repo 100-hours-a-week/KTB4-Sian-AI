@@ -1,5 +1,5 @@
 import torch
-from week5.chatbot.dataset import load_dataset
+from datasets import load_dataset
 from transformers import PreTrainedTokenizerFast, GPT2LMHeadModel
 
 #공통: 토크나이저

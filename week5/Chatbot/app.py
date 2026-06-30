@@ -6,13 +6,15 @@ from pydantic import BaseModel
 from model import MiniGPT          # 직접 구현한 모델 클래스
 from tokenizer_setup import tokenizer  # special token 추가된 PreTrainedTokenizerFast
 
+ckpt_path = "./checkpoint/mini_gpt_260629.pt"
+
 # ----------------------------
 # 1. 모델 / 토크나이저 준비 (서버 시작 시 한 번만 로드)
 # ----------------------------
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 model = MiniGPT(vocab_size=len(tokenizer), block_size=64)  # 학습 때 쓴 값과 동일하게
-model.load_state_dict(torch.load("mini_gpt.pt", map_location=device))
+model.load_state_dict(torch.load(ckpt_path, map_location=device))
 model.to(device)
 model.eval()
 

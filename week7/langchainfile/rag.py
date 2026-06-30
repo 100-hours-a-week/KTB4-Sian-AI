@@ -66,7 +66,7 @@ def build_vector_store():
 
 def build_llm():
     provider = os.getenv("LLM_PROVIDER", "google").lower()
-    print(f"LLM Provider: {provider}")
+    print(f"[INFO] LLM Provider: {provider}")
     if provider == "ollama":
         from langchain_ollama import ChatOllama
         return ChatOllama(
@@ -74,7 +74,7 @@ def build_llm():
             base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
         )
     return ChatGoogleGenerativeAI(
-        model=os.getenv("GOOGLE_MODEL", "gemini-2.5-flash"),
+        model=os.getenv("GOOGLE_MODEL", "gemini-2.5-flash-lite"),
         google_api_key=os.getenv("GOOGLE_API_KEY"),
     )
 
@@ -102,6 +102,13 @@ def build_rag_chain():
     # 저장된 크로마 디비 가져옴
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
     
+    # test_doc = retriever.invoke("RAG란 무엇인가요?")
+    # print(f"검색된 문서 수: {len(test_doc)}")
+    # for doc in test_doc:
+    #     print(doc.page_content)
+    #     print("---")
+
+
     # Augmented Generation을 위한 Prompt 구성
     prompt = ChatPromptTemplate.from_messages([
         ("system",
@@ -138,7 +145,7 @@ def build_rag_chain():
         question=RunnablePassthrough(),
     ).assign(answer=answer_chain)
     '''
-    print("RAG 파이프라인 완료")
+    print("[INFO] RAG 파이프라인 완료\n")
     return rag
 
 

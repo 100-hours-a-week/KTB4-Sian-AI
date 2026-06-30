@@ -5,6 +5,14 @@ from pydantic import BaseModel
 
 from langchainfile.rag import build_rag_chain
 
+# === 요청 / 응답 스키마 ===
+class QueryRequest(BaseModel):
+  question: str
+
+class QueryResponse(BaseModel):
+  answer: str
+
+
 # Lifespan : 앱 생명주기 관리
 # FastAPI 앱 초기화 시점에 인덱싱 + RAG 체인 구성
 # build_rag_chain()은 무거운 초기화 작업을 포함하기 때문에 서버가 켜질 때 딱 한번만 실행되게 한다.
@@ -17,13 +25,6 @@ async def lifespan(app: FastAPI):
 
 # FastAPI 앱 인스턴스를 생성하면서 lifespan 함수를 등록
 app = FastAPI(lifespan=lifespan)
-
-# === 요청 / 응답 스키마 ===
-class QueryRequest(BaseModel):
-  question: str
-
-class QueryResponse(BaseModel):
-  answer: str
 
 # 라우트 핸들러 비동기 처리
 # 기다리는 동안 다른 일 처리 가능

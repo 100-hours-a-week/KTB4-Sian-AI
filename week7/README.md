@@ -90,6 +90,7 @@ Error calling model 'gemini-2.5-flash-lite' (RESOURCE_EXHAUSTED): 429 RESOURCE_E
 ---
 ### 회고
 #### 1. 배운점
+- 깃 연동 테스트
 
 #### 2. 어려웠던 점
 

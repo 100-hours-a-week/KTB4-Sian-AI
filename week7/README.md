@@ -50,10 +50,13 @@ http://localhost:8000/docs
 query에 질문을 문장으로 입력
 ```
 
-#### LangSmith 평가 (미완성)
+#### LangSmith 평가
 ```
 uv run main.py --mode eval
 ```
+![langsmithtest](./image/02langsmithevaltest.png)
+두번째 Example: 키워드는 정확히 포함되지 않았지만, 의미상으로는 기대 답변과 일치하다는 의미.
+
 ---
 
 ---
@@ -66,11 +69,8 @@ uv run main.py --mode eval
 
 ---
 ### 문제 상황
-- eval 파트 실행이 잘 안됨.
-- colab에서 코드 실행했을때보다 자주 LLM resources exhausted 가 발생하는 것 같다.
-```
-Error calling model 'gemini-2.5-flash-lite' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details.
-```
+- model gemini-2.5-flash-lite 토큰 금방 다 쓰는 문제
+    - gemini-3.1-flash-lite 사용
 - colab 기준: langchain 패키지들 설치시, import가 안되는 경우가 있음. (나눠서 설치하거나 다시 설치하면 됨..)
 ```
 !pip install -q langchain langchain-google-genai langchain-chroma
@@ -89,9 +89,14 @@ Error calling model 'gemini-2.5-flash-lite' (RESOURCE_EXHAUSTED): 429 RESOURCE_E
 
 ---
 ### 회고
-#### 1. 배운점
-- 깃 연동 테스트
+#### 1. 배운 점
+- 문서를 주고 LLM이 그 문서를 이용해 찾고자 하는 내용을 검색하는 RAG 시스템을 LangChain으로 구현하는 방법에 대해 알게 되었다.
+- 과제를 진행하며, 현재는 단순히 주어진 문서에 집중하여 답하도록 되어있으나 일반적으로 문서가 주어진다는 것은 대답할 수 있는 범위를 넓혀주는 것인데, 지금은 오히려 대답하는 범위를 주어진 문서만으로 좁힌 상태였다. 따라서 이를 일반적으로 사용되는 형태로 바꾸려면 어떻게 하면 좋을지 고민이 되었다.
 
 #### 2. 어려웠던 점
+- LLM 토큰을 계속 꽉 채워서 사용중임을 깨닫지 못하고 있었어서 exhausted resources 에러가 왜 자꾸 나는지 몰랐는데 Google AI Studio 홈페이지에서 사용한 토큰 량을 볼 수 있다는 것을 깨닫고 원인을 알 수 있었다.
+- 코드 설명 작성의 어려움: 어느 깊이까지 상세히 적어야하는지 아직 감이 오지 않아서 자주 작성해보면서 요령을 터득해야 한다.
 
 #### 3. 최종 회고
+1. RAG 시스템에 대해 클로드에게 질문한 결과, 가장 기본적인 형태는 문서를 검색해서 답변에 활용하는 보강형으로 쓰인다고 한다. 질문이 들어오면 무조건 관련 문서를 검색하고 검색 결과와 일반 지식을 같이 활용해 답변하여 문서와 무관한 질문도 기존처럼 답변이 가능한 방식을 가장 흔하게 사용하기 때문에 이 방식으로 개선해 나가고 싶다.
+2. 챗봇 개인 프로젝트와 연결하게 된다면 반대로 좁은 범위에 대한 전문적인 대답을 할 수 있는 챗봇을 만들어야 할지, 일반화가 가능한 챗봇을 만들어야할지 모르겠다.

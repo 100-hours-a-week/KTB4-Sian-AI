@@ -18,9 +18,7 @@ EVAL_QUESTIONS = [
         "question": "유사도 검색은 무엇인가요?",
         "answer":   "사용자 질문 벡터와 벡터 DB에 있는 벡터 사이의 각도를 계산하여 유사도를 측정하는 방법입니다.",
     },
-]
-'''
-{
+    {
         "question": "멀티 프로세스는 무엇인가요?",
         "answer":   "멀티 프로세스는 하나의 프로그램을 여러 프로세스로 나누어 동시에 실행하는 방식으로 멀티 코어일 경우 병렬 처리가 가능합니다.",
     },
@@ -28,6 +26,9 @@ EVAL_QUESTIONS = [
         "question": "시간 역전파에 대해 설명해주세요.",
         "answer":   "시간 역전파는 층(Layer)을 역으로 가는 것이 아니라 시간을 역으로 가면서 역전파를 계산하는 것입니다.",
     },
+]
+'''
+
 '''
 #print(f"검증 질문 수: {len(EVAL_QUESTIONS)}")
 
@@ -90,8 +91,9 @@ def preview_dataset(client, dataset, n):
 
 # ==================================================
 # 2. 평가자
+
+# === 평가자 1 휴리스틱 Evaluator : 키워드 포함 여부 (규칙 기반) ===
 def contains_expected_keyword(run, example):
-  # === 평가자 1 : 키워드 포함 여부 (규칙 기반) ===
   pred = run.outputs.get("answer", "")
   expected = example.outputs.get("answer","")
 
@@ -106,8 +108,8 @@ def contains_expected_keyword(run, example):
       "comment": f"필수 키워드 {keywords} 포함 여부"
   }
 
+# === 평가자 2 LLM-as-Judge Evaluator : 의미 일치 판단 (의미 기반) ===
 def make_llm_judge(llm):
-  # === 평가자 2 : LLM-as-Judge (의미 기반) ===
   # llm을 주입받아 llm_judge 평가자 함수를 생성하는 팩토리 함수
   judge_chain = JUDGE_PROMPT | llm | StrOutputParser()
 

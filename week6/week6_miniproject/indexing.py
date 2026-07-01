@@ -128,7 +128,6 @@ def save_to_vectorDB(client, embeddings, all_chunks, all_metadatas):
 # ===== 실행 =====
 def indexing(pdf_name, model):
     pages = load_pdf_pymupdf(pdf_name)
-    
     print(len(pages))
 
     all_chunks, all_metadatas = chunking(pages)

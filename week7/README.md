@@ -88,6 +88,9 @@ Error calling model 'gemini-2.5-flash-lite' (RESOURCE_EXHAUSTED): 429 RESOURCE_E
     - 그러나 어떤 LLM을 사용해도 좋을지 정하지 못하여 일단 같은 LLM으로 구현해둠.
 
 ---
+### 회고
+#### 1. 배운점
 
+#### 2. 어려웠던 점
 
-
+#### 3. 최종 회고

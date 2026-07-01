@@ -154,7 +154,7 @@ def eval_rag(rag):
 
   # 평가하는 모델은 평가 받는 모델과 다른 모델을 선택한다.
   judge_llm = ChatGoogleGenerativeAI(
-          model="gemini-2.5-flash-lite",
+          model="gemini-3.1-flash-lite",
           google_api_key=os.getenv("GOOGLE_API_KEY"),
       )
   

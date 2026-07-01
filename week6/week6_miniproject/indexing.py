@@ -2,6 +2,10 @@
 # PDF 파일을 열고, 페이지별 텍스트를 추출할 때 사용합니다.
 import pymupdf
 import chromadb
+from sentence_transformers import SentenceTransformer
+
+model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+print(f"[INFO] Successfully downloaded Embedding Model")
 
 def load_pdf_pymupdf(filepath):
     """
@@ -88,8 +92,7 @@ def chunking(pages):
     return all_chunks, all_metadatas
 
 
-def embedding(model, all_chunks):
-    
+def embedding(all_chunks):
     # 페이지별 텍스트 청크를 임베딩 벡터로 변환합니다.
     # 결과는 넘파이 배열 형태이므로, ChromaDB에 넣기 위해 리스트로 변환합니다.
     embeddings = model.encode(all_chunks).tolist()
@@ -126,14 +129,13 @@ def save_to_vectorDB(client, embeddings, all_chunks, all_metadatas):
     return collection
 
 # ===== 실행 =====
-def indexing(pdf_name, model):
+def indexing(pdf_name):
     pages = load_pdf_pymupdf(pdf_name)
     print(len(pages))
 
     all_chunks, all_metadatas = chunking(pages)
-
     
-    embeddings = embedding(model, all_chunks)
+    embeddings = embedding(all_chunks)
     # ChromaDB 클라이언트를 생성합니다.
     client = chromadb.Client()
     collection = save_to_vectorDB(client, embeddings, all_chunks, all_metadatas)

@@ -3,7 +3,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-#from langchainfile.rag import build_rag_chain
+from indexing import indexing
+from generation import generate_main
+
+pdf_name = "2020_경제금융용어_700선_게시.pdf"
 
 # === 요청 / 응답 스키마 ===
 class QueryRequest(BaseModel):
@@ -20,7 +23,7 @@ class QueryResponse(BaseModel):
 async def lifespan(app: FastAPI):
   #app.state : FastAPI가 제공하는 앱 전역 저장소
   #다른 모든 라우트 함수에서 app.state.rag로 접근 가능
-  app.state.rag = build_rag_chain()
+  app.state.collection = indexing(pdf_name)
   yield
 
 # FastAPI 앱 인스턴스를 생성하면서 lifespan 함수를 등록
@@ -30,7 +33,9 @@ app = FastAPI(lifespan=lifespan)
 # 기다리는 동안 다른 일 처리 가능
 # async def 함수는 호출하는 즉시 실행되지 않고, 코루틴 객체를 반환한다.
 # 이 코루틴 객체는 await되거나 이벤트 루프에 의해 스케줄링 되어야 실제로 실행된다.
+
+# 비동기 처리 제거
 @app.post("/query", response_model=QueryResponse)
-async def query(req: QueryRequest):
-  answer = await app.state.rag.ainvoke(req.question)
+def query(req: QueryRequest):
+  answer = generate_main(req.question, app.state.collection)
   return QueryResponse(answer=answer)

@@ -1,5 +1,6 @@
 # Hugging Face Transformers 라이브러리에서 텍스트 생성용 모델 클래스와 토크나이저 클래스를 가져옵니다.
 from transformers import AutoModelForCausalLM, AutoTokenizer
+from indexing import embedding
 
 # 사용할 LLM 모델 이름을 문자열로 지정합니다.
 # Qwen2.5-1.5B-Instruct는 대화형 지시(instruct) 형식에 맞게 답변을 생성할 수 있는 경량 모델입니다.
@@ -94,5 +95,33 @@ def generate_answer(query, retrieved_chunks):
 
     # batch_decode()는 토큰 ID를 사람이 읽을 수 있는 문자열로 변환합니다.
     answer = llm_tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+
+    return answer
+
+def generate_main(query, collection):
+    query_embedding = embedding(query)
+
+    results = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=3
+    )
+    # 검색된 청크 텍스트를 꺼냅니다.
+    retrieved_chunks = results["documents"][0]
+
+    # 검색 결과를 확인합니다.
+    print("===== Retrieval 결과 =====")
+    for i, chunk in enumerate(retrieved_chunks):
+        pages = results["metadatas"][0][i]["page"]
+        dist = results["distances"][0][i]
+        print(f"  [{i+1}위] {chunk[:80]}...")
+        print(f"       출처: p.{pages}, 거리: {dist:.4f}")
+    print()
+
+    # Generation: 검색된 청크를 근거로 답변을 생성합니다.
+    answer = generate_answer(query, retrieved_chunks)
+
+    print("===== Generation 결과 =====")
+    print(f"질문: {query}")
+    print(f"답변: {answer}")
 
     return answer

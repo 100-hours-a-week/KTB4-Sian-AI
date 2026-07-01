@@ -1,14 +1,13 @@
-from generation import generate_answer
 from indexing import indexing, embedding
 import urllib.request
 import os
-from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
 import os
 from huggingface_hub import login
 
-load_dotenv()
+from generation import generate_main
 
+load_dotenv()
 login(token=os.getenv("HF_TOKEN"))
 
 def main():
@@ -24,37 +23,11 @@ def main():
     else:
         raise ValueError
 
-    model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
-    print(f"[INFO] Successfully downloaded Embedding Model")
-
-    
-    collection = indexing(pdf_name,model)
+    collection = indexing(pdf_name)
 
     query = "저축률이 무엇인가요?"
-    query_embedding = embedding(model, query)
 
-    results = collection.query(
-        query_embeddings=[query_embedding],
-        n_results=3
-    )
-    # 검색된 청크 텍스트를 꺼냅니다.
-    retrieved_chunks = results["documents"][0]
-
-    # 검색 결과를 확인합니다.
-    print("===== Retrieval 결과 =====")
-    for i, chunk in enumerate(retrieved_chunks):
-        pages = results["metadatas"][0][i]["page"]
-        dist = results["distances"][0][i]
-        print(f"  [{i+1}위] {chunk[:80]}...")
-        print(f"       출처: p.{pages}, 거리: {dist:.4f}")
-    print()
-
-    # Generation: 검색된 청크를 근거로 답변을 생성합니다.
-    answer = generate_answer(query, retrieved_chunks)
-
-    print("===== Generation 결과 =====")
-    print(f"질문: {query}")
-    print(f"답변: {answer}")
+    generate_main(query, collection)
     
 if __name__ == "__main__":
     main()
